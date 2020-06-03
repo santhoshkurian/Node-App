@@ -10,12 +10,17 @@ mongoose.connect("mongodb://localhost:27017/Store", { useNewUrlParser: true, use
     });
 
 const items = require("./routes/items");
+const users = require("./routes/users");
+
 const app = express();
 
 app.use(express.json())
+
 app.use("/api/items", items);
+app.use("/api/users", users);
 
 
-app.listen(3000, () => { console.log("listening port 3000") });
+
+app.listen(3010, () => { console.log("listening port 3010") });
 
 
