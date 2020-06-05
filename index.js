@@ -1,5 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const config = require('config');
+
+if(!config.get("jwtPrivateKey")){
+    console.log("fatal error: unable to start application");
+    process.exit(1);
+}
 
 mongoose.connect("mongodb://localhost:27017/Store", { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -11,6 +17,8 @@ mongoose.connect("mongodb://localhost:27017/Store", { useNewUrlParser: true, use
 
 const items = require("./routes/items");
 const users = require("./routes/users");
+const auth = require("./routes/auth");
+
 
 const app = express();
 
@@ -18,6 +26,8 @@ app.use(express.json())
 
 app.use("/api/items", items);
 app.use("/api/users", users);
+app.use("/api/auth", auth);
+
 
 
 

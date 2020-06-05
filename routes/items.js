@@ -1,6 +1,6 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const joi = require("joi");
+const auth = require('../middleware/auth')
+
 const router = express.Router();
 
 const { Item, validate } = require("../models/items");
@@ -10,7 +10,7 @@ router.get('/', async function (req, res) {
     return res.send(items);
 })
 
-router.get('/:id', async function (req, res) {
+router.get('/:id', auth , async function (req, res) {
     try {
         const item = await Item.findById(req.params.id);
         console.log("Item : ", item);
@@ -22,7 +22,7 @@ router.get('/:id', async function (req, res) {
 })
 
 
-router.post('/', async function (req, res) {
+router.post('/', auth , async function (req, res) {
     console.log("request :", req.body)
 
     const { body } = req.body;
@@ -46,7 +46,7 @@ router.post('/', async function (req, res) {
 })
 
 
-router.put('/:id', async function (req, res) {
+router.put('/:id', auth , async function (req, res) {
     console.log("request :", req.body)
 
     const { body } = req.body;
@@ -68,7 +68,7 @@ router.put('/:id', async function (req, res) {
     }
 })
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', auth , async function (req, res) {
     const items = await Item.deleteOne({_id:req.params.id});
     return res.send(items);
 })
